@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    
   cupertino_icons: ^1.0.8
   api_cache_manager: ^1.0.2
   dio: ^5.7.0
@@ -16,13 +17,12 @@ dependencies:
   bloc: ^8.1.4
   flutter_screenutil: ^5.9.3
   get: ^4.6.6
-  geolocator: ^10.0.0
   kiwi: ^5.0.1
   fluttertoast: ^8.2.8
   equatable: ^2.0.5
   internet_connection_checker: ^1.0.0+1
   geocoding: ^3.0.0
-  flutter_location_search: ^1.1.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
