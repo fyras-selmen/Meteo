@@ -1,6 +1,6 @@
 # Application Météo 🌤️
 
-L'application Météo est une application simple et intuitive développée avec Flutter. Elle fournit des informations météorologiques en temps réel pour votre position actuelle et permet aux utilisateurs de rechercher d'autres villes. Vous pouvez également enregistrer vos villes favorites pour y accéder rapidement.
+Une application simple et intuitive développée avec Flutter. Elle fournit des informations météorologiques en temps réel pour votre position actuelle et permet aux utilisateurs de rechercher d'autres villes. Vous pouvez également enregistrer vos villes favorites pour y accéder rapidement.
 
 ## Fonctionnalités
 
