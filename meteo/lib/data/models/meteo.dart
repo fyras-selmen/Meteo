@@ -4,6 +4,12 @@
 
 import 'dart:convert';
 
+List<Meteo> meteoListFromJson(String str) =>
+    List<Meteo>.from(json.decode(str).map((x) => Meteo.fromJson(x)));
+
+String meteoListToJson(List<Meteo> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
 Meteo meteoFromJson(String str) => Meteo.fromJson(json.decode(str));
 
 String meteoToJson(Meteo data) => json.encode(data.toJson());

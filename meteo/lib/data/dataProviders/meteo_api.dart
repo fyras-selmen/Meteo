@@ -1,7 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meteo/data/dataProviders/my_dio.dart';
 
 class MeteoAPI {
@@ -15,25 +13,25 @@ class MeteoAPI {
       if (response.statusCode == 200) {
         return response.data;
       } else if (response.statusCode == 404) {
-        await Fluttertoast.showToast(
+        /*  await Fluttertoast.showToast(
             msg: "No data found",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.red,
             textColor: Colors.white,
-            fontSize: 16.0);
+            fontSize: 16.0); */
         log("No data found for this city");
         return "";
       } else {
-        await Fluttertoast.showToast(
+        /*  await Fluttertoast.showToast(
             msg: "Failed to load data. Please try again.",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.red,
             textColor: Colors.white,
-            fontSize: 16.0);
+            fontSize: 16.0); */
         log("Error RawMeteo API");
         return "";
       }
