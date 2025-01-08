@@ -13,17 +13,3 @@ class SplashScreenLoading extends SplashScreenState {
   @override
   List<Object> get props => [];
 }
-
-class SplashScreenFetchingWeather extends SplashScreenState {
-  const SplashScreenFetchingWeather();
-
-  @override
-  List<Object> get props => [];
-}
-
-class SplashScreenLoaded extends SplashScreenState {
-  const SplashScreenLoaded();
-
-  @override
-  List<Object> get props => [];
-}

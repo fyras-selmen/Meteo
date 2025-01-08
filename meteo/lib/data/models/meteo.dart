@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final meteo = meteoFromJson(jsonString);
-
 import 'dart:convert';
 
 List<Meteo> meteoListFromJson(String str) =>
@@ -21,9 +17,9 @@ class Meteo {
   Main main;
   int visibility;
   Wind wind;
-  Clouds clouds;
+
   int dt;
-  Sys sys;
+
   int timezone;
   int id;
   String name;
@@ -36,9 +32,7 @@ class Meteo {
     required this.main,
     required this.visibility,
     required this.wind,
-    required this.clouds,
     required this.dt,
-    required this.sys,
     required this.timezone,
     required this.id,
     required this.name,
@@ -53,9 +47,7 @@ class Meteo {
         main: Main.fromJson(json["main"]),
         visibility: json["visibility"],
         wind: Wind.fromJson(json["wind"]),
-        clouds: Clouds.fromJson(json["clouds"]),
         dt: json["dt"],
-        sys: Sys.fromJson(json["sys"]),
         timezone: json["timezone"],
         id: json["id"],
         name: json["name"],
@@ -69,29 +61,11 @@ class Meteo {
         "main": main.toJson(),
         "visibility": visibility,
         "wind": wind.toJson(),
-        "clouds": clouds.toJson(),
         "dt": dt,
-        "sys": sys.toJson(),
         "timezone": timezone,
         "id": id,
         "name": name,
         "cod": cod,
-      };
-}
-
-class Clouds {
-  int all;
-
-  Clouds({
-    required this.all,
-  });
-
-  factory Clouds.fromJson(Map<String, dynamic> json) => Clouds(
-        all: json["all"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "all": all,
       };
 }
 
@@ -159,38 +133,6 @@ class Main {
       };
 }
 
-class Sys {
-  int type;
-  int id;
-  String country;
-  int sunrise;
-  int sunset;
-
-  Sys({
-    required this.type,
-    required this.id,
-    required this.country,
-    required this.sunrise,
-    required this.sunset,
-  });
-
-  factory Sys.fromJson(Map<String, dynamic> json) => Sys(
-        type: json["type"],
-        id: json["id"],
-        country: json["country"],
-        sunrise: json["sunrise"],
-        sunset: json["sunset"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "type": type,
-        "id": id,
-        "country": country,
-        "sunrise": sunrise,
-        "sunset": sunset,
-      };
-}
-
 class Weather {
   int id;
   String main;
@@ -222,23 +164,19 @@ class Weather {
 class Wind {
   double speed;
   int deg;
-  double gust;
 
   Wind({
     required this.speed,
     required this.deg,
-    required this.gust,
   });
 
   factory Wind.fromJson(Map<String, dynamic> json) => Wind(
         speed: json["speed"]?.toDouble(),
         deg: json["deg"],
-        gust: json["gust"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
         "speed": speed,
         "deg": deg,
-        "gust": gust,
       };
 }

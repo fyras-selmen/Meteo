@@ -7,11 +7,12 @@ sealed class MeteoEvent extends Equatable {
 class FetchMeteoEvent extends MeteoEvent {
   final double long;
   final double lat;
-
-  const FetchMeteoEvent({required this.long, required this.lat});
+  final int id;
+  const FetchMeteoEvent(
+      {required this.long, required this.lat, required this.id});
 
   @override
-  List<Object?> get props => [long, lat];
+  List<Object?> get props => [long, lat, id];
 }
 
 class FetchCitiesEvent extends MeteoEvent {

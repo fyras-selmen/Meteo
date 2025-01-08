@@ -20,6 +20,7 @@ class MeteoRepository {
         return null;
       }
     }
+
     return null;
   }
 
@@ -27,9 +28,9 @@ class MeteoRepository {
     final rawCities = await _meteoAPI.searchCities(keyword);
     if (rawCities != null && rawCities.isNotEmpty) {
       try {
-        Cities cities = citiesFromJson(jsonEncode(rawCities));
+        List<City> cities = cityFromJson(jsonEncode(rawCities));
 
-        return cities.results;
+        return cities;
       } catch (error) {
         log("searchCitiesfromJson Error : $error");
         return null;
