@@ -10,7 +10,7 @@ Une application simple et intuitive développée avec Flutter. Elle fournit des 
 - **Stockage persistant** : Vos villes favorites sont stockées localement et restent disponibles même après un redémarrage de l'application.
 
 ## Installation
-Vous pouvez telecharger le fichier APK directement via [Météo APK](https://github.com/fyras-selmen/Meteo/releases/download/APK/meteo.apk) 
+Vous pouvez télécharger le fichier APK directement via [Météo APK](https://github.com/fyras-selmen/Meteo/releases/download/APK/meteo.apk) 
 
 Pour exécuter ce projet en local, suivez ces étapes :
 
