@@ -16,23 +16,31 @@ class SplashScreenCubit extends Cubit<SplashScreenState> {
     KiwiContainer kc = KiwiContainer();
     StreamSubscription<MeteoState>? meteoBlocSubscription;
     final MeteoBloc meteoBloc = kc.resolve("meteoBloc");
+
+    // Variable pour éviter de déclencher plusieurs fois la logique
     var triggered = false;
+
     try {
+      // Déclenche l'événement pour récupérer les villes favorites
       meteoBloc.add(const FetchCitiesEvent());
+
+      // Écoute les changements d'état du MeteoBloc
       meteoBlocSubscription = meteoBloc.stream.listen((state) async {
         if (!triggered) {
-          triggered = true;
+          triggered =
+              true; // Marque comme déclenché pour éviter les répétitions
 
-          log("Listening to MeteoBloc");
-          //if not First time
+          // Vérifie si des données sont disponibles dans le cache
           if (await CacheManager.containsKey("data")) {
             if (meteoBloc.state.status == MeteoStatus.success) {
+              // Si des villes favorites existent, récupère les données météo pour la dernière ville
               if (meteoBloc.state.favoriteCities!.isNotEmpty) {
                 meteoBloc.add(FetchMeteoEvent(
                     id: meteoBloc.state.favoriteCities!.last.id,
                     long: 0,
                     lat: 0));
               } else {
+                // Sinon, récupère la localisation actuelle et utilise-la pour obtenir les données météo
                 var currentLocation = await getCurrentLocation();
                 if (currentLocation != null) {
                   meteoBloc.add(FetchMeteoEvent(
@@ -43,6 +51,7 @@ class SplashScreenCubit extends Cubit<SplashScreenState> {
               }
             }
           } else {
+            // Si aucune donnée n'est trouvée dans le cache, utilise la localisation actuelle
             var currentLocation = await getCurrentLocation();
             if (currentLocation != null) {
               meteoBloc.add(FetchMeteoEvent(
@@ -53,37 +62,44 @@ class SplashScreenCubit extends Cubit<SplashScreenState> {
           }
         }
 
+        // Si les données météo ont été récupérées avec succès, navigue vers l'écran d'accueil
         if (meteoBloc.state.status == MeteoStatus.fetched) {
           NavigationService().replaceTo('/home');
-          meteoBlocSubscription!.cancel();
+          meteoBlocSubscription!
+              .cancel(); // Annule l'abonnement au flux pour éviter d'autres écoutes
         }
       });
     } catch (exception) {
+      // Log l'exception en cas d'erreur
       log(exception.toString());
     }
   }
 
+  // Méthode pour obtenir la position actuelle de l'utilisateur
   Future<Position?> getCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
 
+    // Vérifie si le service de localisation est activé
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      return null;
+      return null; // Retourne null si le service est désactivé
     }
 
+    // Vérifie et demande les permissions de localisation si nécessaire
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return null;
+        return null; // Retourne null si les permissions sont refusées
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return null;
+      return null; // Retourne null si les permissions sont refusées de manière permanente
     }
 
+    // Retourne la position actuelle si toutes les conditions sont remplies
     return await Geolocator.getCurrentPosition();
   }
 }
