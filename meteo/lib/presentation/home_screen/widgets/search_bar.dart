@@ -45,8 +45,11 @@ class _SearchCityBarState extends State<SearchCityBar> {
                   final option = options.elementAt(index);
 
                   return InkWell(
-                    onTap: () => meteoBloc.add(FetchMeteoEvent(
-                        long: option.lon, lat: option.lat, id: 0)),
+                    onTap: () {
+                      meteoBloc.add(FetchMeteoEvent(
+                          long: option.lon, lat: option.lat, id: 0));
+                      meteoBloc.add(const ToggleSearching());
+                    },
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
@@ -105,7 +108,7 @@ class _SearchCityBarState extends State<SearchCityBar> {
                 borderRadius: BorderRadius.circular(8),
                 borderSide: const BorderSide(color: Color(0xFF1E3A78)),
               ),
-              hintText: "Search a city...",
+              hintText: "Saissisez une ville",
               hintStyle: const TextStyle(color: Color(0xFF1E3A78)),
             ),
           ),

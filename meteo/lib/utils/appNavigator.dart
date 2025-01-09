@@ -11,7 +11,8 @@ class NavigationService {
     await navigatorKey.currentState?.pushNamed(routeName, arguments: arguments);
   }
 
-  void goBack() {
-    navigatorKey.currentState?.pop();
+  Future<void> replaceTo(String routeName, {Object? arguments}) async {
+    await navigatorKey.currentState
+        ?.pushReplacementNamed(routeName, arguments: arguments);
   }
 }

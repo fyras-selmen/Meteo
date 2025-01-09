@@ -90,6 +90,7 @@ class _MyDrawerState extends State<MyDrawer> {
                                 long: city.coord.lon,
                                 lat: city.coord.lat,
                                 id: city.id));
+                            Navigator.of(context).pop();
                           },
                         );
                       },

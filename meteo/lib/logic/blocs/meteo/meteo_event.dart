@@ -29,6 +29,13 @@ class AddCityEvent extends MeteoEvent {
   List<Object?> get props => [];
 }
 
+class ToggleSearching extends MeteoEvent {
+  const ToggleSearching();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class DeleteCityEvent extends MeteoEvent {
   final int id;
   const DeleteCityEvent({required this.id});

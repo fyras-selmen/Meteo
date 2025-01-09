@@ -1,32 +1,38 @@
 part of 'meteo_bloc.dart';
 
-enum MeteoStatus { loading, success, error, searching }
+enum MeteoStatus { loading, success, error, fetched }
 
 class MeteoState extends Equatable {
   final MeteoStatus status;
-
+  final bool isSearching;
+  final bool isCitySaved;
   final Meteo? data;
-  final Iterable<City>? cities;
+
   final List<Meteo>? favoriteCities;
   const MeteoState(
       {this.status = MeteoStatus.loading,
       this.data,
-      this.cities,
+      this.isSearching = false,
+      this.isCitySaved = false,
       this.favoriteCities});
 
   MeteoState copyWith(
       {MeteoStatus? status,
       int? id,
       Meteo? data,
+      bool? isSearching,
+      bool? isCitySaved,
       Iterable<City>? cities,
       List<Meteo>? favoriteCities}) {
     return MeteoState(
         status: status ?? this.status,
         data: data ?? this.data,
-        cities: cities ?? this.cities,
+        isCitySaved: isCitySaved ?? this.isCitySaved,
+        isSearching: isSearching ?? this.isSearching,
         favoriteCities: favoriteCities ?? this.favoriteCities);
   }
 
   @override
-  List<Object?> get props => [status, data, cities, favoriteCities];
+  List<Object?> get props =>
+      [status, data, favoriteCities, isSearching, isCitySaved];
 }

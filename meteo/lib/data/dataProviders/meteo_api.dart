@@ -16,26 +16,26 @@ class MeteoAPI {
       if (response.statusCode == 200) {
         return response.data;
       } else if (response.statusCode == 404) {
-        /*  await Fluttertoast.showToast(
-            msg: "No data found",
+        await Fluttertoast.showToast(
+            msg: "Aucune donnée trouvée pour cette ville",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.red,
             textColor: Colors.white,
-            fontSize: 16.0); */
-        log("No data found for this city");
+            fontSize: 16.0);
+
         return "";
       } else {
-        /*  await Fluttertoast.showToast(
-            msg: "Failed to load data. Please try again.",
+        await Fluttertoast.showToast(
+            msg: "Veuillez réessayer plus tard",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.red,
             textColor: Colors.white,
-            fontSize: 16.0); */
-        log("Error RawMeteo API");
+            fontSize: 16.0);
+
         return "";
       }
     } catch (exception) {
@@ -63,7 +63,7 @@ class MeteoAPI {
       if (exception is DioException) {
         if (exception.type.name == "connectionError") {
           await Fluttertoast.showToast(
-              msg: "No internet connection",
+              msg: "Pas de connexion internet",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,

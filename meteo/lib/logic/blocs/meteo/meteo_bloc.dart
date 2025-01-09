@@ -4,12 +4,11 @@ import 'dart:developer';
 import 'package:api_cache_manager/models/cache_db_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:kiwi/kiwi.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:meteo/data/cache/cache_manager.dart';
 import 'package:meteo/data/models/city.dart';
 import 'package:meteo/data/models/meteo.dart';
 import 'package:meteo/data/repositories/meteo_repository.dart';
-import 'package:meteo/logic/cubits/internet/internet_cubit.dart';
 
 part 'meteo_event.dart';
 part 'meteo_state.dart';
@@ -20,34 +19,32 @@ class MeteoBloc extends Bloc<MeteoEvent, MeteoState> {
       final MeteoRepository meteoRepository = MeteoRepository();
       if (event is FetchMeteoEvent) {
         try {
-          KiwiContainer kc = KiwiContainer();
-          final InternetCubit internetCubit = kc.resolve("internetCubit");
-          Meteo? meteo;
-          if (internetCubit.state is InternetConnected) {
-            meteo = await meteoRepository.getMeteo(event.lat, event.long);
+          Meteo? targetCity;
+          var isInternetConnected =
+              await InternetConnectionChecker().connectionStatus;
+          if (isInternetConnected == InternetConnectionStatus.connected) {
+            targetCity = await meteoRepository.getMeteo(event.lat, event.long);
           } else {
-            List<Meteo> cities = [];
-            if (await CacheManager.containsKey("data")) {
-              var oldCitiesRaw = await CacheManager.getData("data");
-              cities = meteoListFromJson(oldCitiesRaw.syncData);
-              if (cities.isNotEmpty) {
-                for (var city in cities) {
+            if (state.favoriteCities != null) {
+              if (state.favoriteCities!.isNotEmpty) {
+                for (var city in state.favoriteCities!) {
                   if (city.id == event.id) {
-                    meteo = city;
+                    targetCity = city;
                     break;
                   }
                 }
-              } else {
-                emit(state.copyWith(
-                  status: MeteoStatus.error,
-                ));
               }
             }
           }
-
-          return emit(state.copyWith(
-            status: MeteoStatus.success,
-            data: meteo,
+          if (targetCity != null) {
+            emit(state.copyWith(
+                isCitySaved: (state.favoriteCities
+                        ?.any((city) => city.id == targetCity!.id) ??
+                    false)));
+          }
+          emit(state.copyWith(
+            status: MeteoStatus.fetched,
+            data: targetCity,
           ));
         } catch (e) {
           emit(state.copyWith(
@@ -65,7 +62,7 @@ class MeteoBloc extends Bloc<MeteoEvent, MeteoState> {
           emit(state.copyWith(
               favoriteCities: cities, status: MeteoStatus.success));
         } else {
-          emit(state.copyWith(favoriteCities: [], status: MeteoStatus.error));
+          emit(state.copyWith(favoriteCities: [], status: MeteoStatus.success));
         }
       } else if (event is AddCityEvent) {
         List<Meteo> cities = [];
@@ -80,36 +77,18 @@ class MeteoBloc extends Bloc<MeteoEvent, MeteoState> {
             break;
           }
         }
-        if (alreadyExist) {
-          /*   await Fluttertoast.showToast(
-              msg: "City already saved",
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.black.withOpacity(0.5),
-              textColor: Colors.white,
-              fontSize: 16.0); */
-        } else {
+        if (!alreadyExist) {
           cities.add(state.data!);
           APICacheDBModel cacheDBModel =
               APICacheDBModel(key: "data", syncData: jsonEncode(cities));
           bool done = await CacheManager.setData("data", cacheDBModel);
           if (done) {
-            /*    await Fluttertoast.showToast(
-                msg: "City saved",
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.black.withOpacity(0.5),
-                textColor: Colors.white,
-                fontSize: 16.0); */
-            emit(state.copyWith(favoriteCities: cities));
+            emit(state.copyWith(
+                favoriteCities: cities,
+                isCitySaved: cities.any((city) => city.id == state.data!.id)));
           }
         }
       } else if (event is DeleteCityEvent) {
-        // Trigger FetchCitiesEvent only if necessary
-        add(const FetchCitiesEvent());
-
         // Use list comprehension for filtering cities
         final newCities =
             state.favoriteCities!.where((city) => city.id != event.id).toList();
@@ -124,21 +103,18 @@ class MeteoBloc extends Bloc<MeteoEvent, MeteoState> {
           try {
             final done = await CacheManager.setData("data", cacheDBModel);
             if (done) {
-              emit(state.copyWith(favoriteCities: newCities));
-              /*    await Fluttertoast.showToast(
-                  msg: "City deleted",
-                  toastLength: Toast.LENGTH_LONG,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.black.withOpacity(0.5),
-                  textColor: Colors.white,
-                  fontSize: 16.0); */
+              emit(state.copyWith(
+                  favoriteCities: newCities,
+                  isCitySaved:
+                      newCities.any((city) => city.id == state.data!.id)));
             }
           } catch (e) {
             // Handle caching errors gracefully
             print("Failed to update cache: $e");
           }
         }
+      } else if (event is ToggleSearching) {
+        emit(state.copyWith(isSearching: !state.isSearching));
       }
     });
   }
