@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meteo/data/models/meteo.dart';
-import 'package:meteo/utils/capitalize.dart';
+import 'package:meteo/utils/utils.dart';
 
 class CurrentWeatherWidget extends StatelessWidget {
   final Meteo meteo;
@@ -13,101 +13,326 @@ class CurrentWeatherWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-            padding: const EdgeInsets.all(12),
-            margin: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.black.withOpacity(0.4))),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            20.pw,
+            Column(
               children: [
-                Image.network(
-                  "https://openweathermap.org/img/wn/${meteo.weather.first.icon}@2x.png",
-                  fit: BoxFit.fill,
+                Text(
+                  "${meteo.main.temp.ceil()}°C",
+                  style: const TextStyle(fontSize: 42),
                 ),
-                Column(
-                  children: [
-                    Text(
-                      meteo.weather.first.description.capitalize(),
-                      style: const TextStyle(fontSize: 14),
-                    ),
-                    Text(
-                      "${meteo.main.temp.ceil()}°C",
-                      style: const TextStyle(fontSize: 34),
-                    )
-                  ],
-                )
+                Text(
+                  meteo.weather.first.description.capitalize(),
+                  style: const TextStyle(
+                      fontSize: 22, fontWeight: FontWeight.w300),
+                ),
               ],
-            )),
-        Container(
-            margin: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
+            ),
+            Image.network(
+              "https://openweathermap.org/img/wn/${meteo.weather.first.icon}@2x.png",
+              fit: BoxFit.fill,
+            ),
+          ],
+        ),
+        GridView.count(
+          padding: const EdgeInsets.all(20),
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          crossAxisCount: 2,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+          childAspectRatio: 1.38,
+          children: [
+            Container(
+              decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.black.withOpacity(0.4))),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                border: Border.all(color: Colors.black.withOpacity(0.2)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SizedBox(
-                    height: ScreenUtil().scaleHeight * 90,
-                    width: ScreenUtil().scaleWidth * 90,
-                    child: Image.asset(
-                      "assets/icons/windy.png",
-                      fit: BoxFit.fill,
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.4),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: ScreenUtil().scaleHeight * 35,
+                          width: ScreenUtil().scaleWidth * 35,
+                          child: Image.asset(
+                            "assets/icons/windy.png",
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        const Text(
+                          "Vent",
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
                     ),
                   ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        getWindDirection(meteo.wind.deg),
-                        style: const TextStyle(fontSize: 14),
-                      ),
-                      Text(
-                        "${meteo.wind.speed.ceil()} km/h",
-                        style: const TextStyle(fontSize: 34),
-                      )
-                    ],
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "${meteo.wind.speed.ceil()} km/h",
+                          style: const TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w500),
+                        ),
+                        Text(
+                          getWindDirection(meteo.wind.deg),
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w300),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            )),
-        Container(
-            margin: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
+            ),
+            Container(
+              decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.black.withOpacity(0.4))),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                border: Border.all(color: Colors.black.withOpacity(0.2)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SizedBox(
-                    height: ScreenUtil().scaleHeight * 90,
-                    width: ScreenUtil().scaleWidth * 90,
-                    child: Image.asset(
-                      "assets/icons/humidity.png",
-                      fit: BoxFit.fill,
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.4),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: ScreenUtil().scaleHeight * 35,
+                          width: ScreenUtil().scaleWidth * 35,
+                          child: Image.asset(
+                            "assets/icons/humidity.png",
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        5.pw,
+                        const Text(
+                          "Humidité",
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
                     ),
                   ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text(
-                        "Humidité",
-                        style: TextStyle(fontSize: 14),
-                      ),
-                      Text(
+                  Expanded(
+                    child: Center(
+                      child: Text(
                         "${meteo.main.humidity}%",
-                        style: const TextStyle(fontSize: 34),
-                      )
-                    ],
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w500),
+                      ),
+                    ),
                   ),
                 ],
               ),
-            )),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.black.withOpacity(0.2)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.4),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                      ),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.compare_arrows_outlined,
+                          size: 30,
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          "Pression",
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        "${meteo.main.pressure} mb",
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.black.withOpacity(0.2)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.4),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                      ),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.visibility_outlined,
+                          size: 30,
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          "Visibilité",
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        "${meteo.visibility / 1000} km",
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.black.withOpacity(0.2)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.4),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                      ),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.terrain,
+                          size: 30,
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          "Niveau du sol",
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        "${meteo.main.grndLevel} hPa",
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.black.withOpacity(0.2)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.4),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                      ),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.water,
+                          size: 30,
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          "Niveau de mer",
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        "${meteo.main.seaLevel} hPa",
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ],
     );
   }

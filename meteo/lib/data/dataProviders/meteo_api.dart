@@ -14,7 +14,7 @@ class MeteoAPI {
 
       // Effectue une requête GET avec les paramètres nécessaires (latitude, longitude, clé API, etc.)
       var response = await dio.get(
-        ('?lat=$lat&lon=$lon&appid=8d9b31bca6d4e1fc33a7137f179099de&lang=fr&units=metric'),
+        ('?lat=$lat&lon=$lon&appid=$apiKey&lang=fr&units=metric'),
       );
 
       // Vérifie le code de statut HTTP de la réponse
@@ -60,7 +60,7 @@ class MeteoAPI {
 
       // Effectue une requête GET avec le mot-clé et les autres paramètres nécessaires
       var response = await dio.get(
-        ('?q=$keyword&limit=5&appid=8d9b31bca6d4e1fc33a7137f179099de'),
+        ('?q=$keyword&limit=5&appid=$apiKey'),
       );
 
       // Vérifie le code de statut HTTP de la réponse

@@ -19,12 +19,16 @@ class SplashScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(28.0),
+                    padding: const EdgeInsets.all(46.0),
                     child: Image.asset(
                       'assets/icons/logo.png',
                     ),
                   ),
-                  const CircularProgressIndicator.adaptive()
+                  const CircularProgressIndicator.adaptive(
+                    backgroundColor: Colors.transparent,
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(Colors.blueAccent),
+                  )
                 ],
               ),
             ),

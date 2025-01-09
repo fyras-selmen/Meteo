@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
           ),
           drawer: Drawer(
-            backgroundColor: Colors.black.withOpacity(0.5),
+            backgroundColor: Colors.black.withOpacity(0.4),
             child: const MyDrawer(),
           ),
           body: BlocBuilder<MeteoBloc, MeteoState>(

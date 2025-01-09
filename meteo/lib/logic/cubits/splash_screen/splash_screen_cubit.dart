@@ -29,7 +29,7 @@ class SplashScreenCubit extends Cubit<SplashScreenState> {
         if (!triggered) {
           triggered =
               true; // Marque comme déclenché pour éviter les répétitions
-
+          var currentLocation = await getCurrentLocation();
           // Vérifie si des données sont disponibles dans le cache
           if (await CacheManager.containsKey("data")) {
             if (meteoBloc.state.status == MeteoStatus.success) {
@@ -41,7 +41,7 @@ class SplashScreenCubit extends Cubit<SplashScreenState> {
                     lat: 0));
               } else {
                 // Sinon, récupère la localisation actuelle et utilise-la pour obtenir les données météo
-                var currentLocation = await getCurrentLocation();
+
                 if (currentLocation != null) {
                   meteoBloc.add(FetchMeteoEvent(
                       id: 0,
@@ -52,7 +52,7 @@ class SplashScreenCubit extends Cubit<SplashScreenState> {
             }
           } else {
             // Si aucune donnée n'est trouvée dans le cache, utilise la localisation actuelle
-            var currentLocation = await getCurrentLocation();
+
             if (currentLocation != null) {
               meteoBloc.add(FetchMeteoEvent(
                   id: 0,

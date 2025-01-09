@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:meteo/logic/blocs/meteo/meteo_bloc.dart';
-import 'package:meteo/utils/capitalize.dart';
+import 'package:meteo/utils/utils.dart';
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({
@@ -42,7 +42,7 @@ class _MyDrawerState extends State<MyDrawer> {
             (state.favoriteCities ?? []).isEmpty
                 ? const Center(
                     child: Text(
-                      "No saved cities",
+                      "Aucune ville enregistrée",
                       style: TextStyle(color: Colors.white),
                     ),
                   )

@@ -95,7 +95,7 @@ class _SearchCityBarState extends State<SearchCityBar> {
             onEditingComplete: onEditingComplete,
             decoration: InputDecoration(
               filled: true,
-              fillColor: Colors.black.withOpacity(0.5),
+              fillColor: Colors.black.withOpacity(0.4),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: const BorderSide(color: Color(0xFF1E3A78)),
@@ -108,8 +108,8 @@ class _SearchCityBarState extends State<SearchCityBar> {
                 borderRadius: BorderRadius.circular(8),
                 borderSide: const BorderSide(color: Color(0xFF1E3A78)),
               ),
-              hintText: "Saissisez une ville",
-              hintStyle: const TextStyle(color: Color(0xFF1E3A78)),
+              hintText: "Saisir une ville",
+              hintStyle: const TextStyle(color: Colors.white),
             ),
           ),
         );

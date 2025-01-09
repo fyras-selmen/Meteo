@@ -13,3 +13,5 @@ void configureDio() {
   dio.options.connectTimeout = const Duration(seconds: 10);
   dio.options.receiveTimeout = const Duration(seconds: 10);
 }
+
+const String apiKey = '8d9b31bca6d4e1fc33a7137f179099de';
