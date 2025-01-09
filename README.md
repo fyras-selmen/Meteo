@@ -26,7 +26,7 @@ Pour exécuter ce projet en local, suivez ces étapes :
    flutter run
    
 ## Prérequis
-- **JDK 17** : Ce projet utilise Java 17 pour les builds Android. Veuillez installer le JDK 17 et le définir comme votre `JAVA_HOME`.
+- **JDK 17** : Ce projet utilise Java 17 pour les builds Android.
 - **Flutter SDK** : Assurez-vous d'avoir la dernière version stable de Flutter installée.
 - **Android Studio** : Utilisez Android Studio avec Gradle 7.3 ou une version ultérieure pour garantir la compatibilité avec le JDK 17.
 
